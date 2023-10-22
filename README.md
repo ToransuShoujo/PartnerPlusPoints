@@ -67,4 +67,4 @@ In theory, this program supports all versions of Windows, Mac OS X, and Linux. H
 Contributions of any kind are more than welcome. Just make a pull request!
 
 ## License
-[GNU GPL v3](https://choosealicense.com/licenses/gpl-3.0/)
+This software is licensed under the [GNU GPL v3](https://choosealicense.com/licenses/gpl-3.0/)
