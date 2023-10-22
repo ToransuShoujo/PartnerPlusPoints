@@ -105,9 +105,9 @@ jobs:
       - name: Make OsXArm64 executable
         run: chmod +x ./output/osxarm64/PartnerPlusPoints
       - name: Compress OsX64
-        run: tar cJf ./output/osx64/PartnerPlusPoints.tar.xz -C ./output/osx64 ./PartnerPlusPoints
+        run: tar czvf ./output/osx64/PartnerPlusPoints.tar.gz -C ./output/osx64 ./PartnerPlusPoints
       - name: Compress OsXArm64
-        run: tar cJf ./output/osxarm64/PartnerPlusPoints.tar.xz -C ./output/osxarm64 ./PartnerPlusPoints
+        run: tar czvf ./output/osxarm64/PartnerPlusPoints.tar.gz -C ./output/osxarm64 ./PartnerPlusPoints
 
       - name: Get release
         uses: bruceadams/get-release@v1.3.2
@@ -121,8 +121,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./output/osx64/PartnerPlusPoints.tar.xz
-          asset_name: MacOsX_x64.tar.xz
+          asset_path: ./output/osx64/PartnerPlusPoints.tar.gz
+          asset_name: MacOsX_x64.tar.gz
           asset_content_type: application/gzip
       - name: Upload OsXArm64
         uses: actions/upload-release-asset@v1
@@ -130,8 +130,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./output/osxarm64/PartnerPlusPoints.tar.xz
-          asset_name: MacOsX_Arm64.tar.xz
+          asset_path: ./output/osxarm64/PartnerPlusPoints.tar.gz
+          asset_name: MacOsX_Arm64.tar.gz
           asset_content_type: application/gzip
       
       
