@@ -40,9 +40,9 @@ jobs:
       run: chmod -x ./output/linuxarm64/PartnerPlusPoints
       
     - name: Compress Linux64
-      run: tar cJfp ./output/linux64/PartnerPlusPoints.tar.xz -C ./output/linux64 ./PartnerPlusPoints
+      run: tar cJf ./output/linux64/PartnerPlusPoints.tar.xz -C ./output/linux64 ./PartnerPlusPoints
     - name: Compress LinuxArm64
-      run: tar cJfp ./output/linuxarm64/PartnerPlusPoints.tar.xz -C ./output/linuxarm64 ./PartnerPlusPoints
+      run: tar cJf ./output/linuxarm64/PartnerPlusPoints.tar.xz -C ./output/linuxarm64 ./PartnerPlusPoints
       
     - name: Get release
       uses: bruceadams/get-release@v1.3.2
@@ -111,9 +111,9 @@ jobs:
       - name: Make OsXArm64 executable
         run: chmod +x ./output/osxarm64/PartnerPlusPoints
       - name: Compress OsX64
-        run: tar cJfp ./output/osx64/PartnerPlusPoints.tar.xz -C ./output/osx64 ./PartnerPlusPoints
+        run: tar cJf ./output/osx64/PartnerPlusPoints.tar.xz -C ./output/osx64 ./PartnerPlusPoints
       - name: Compress OsXArm64
-        run: tar cJfp ./output/osxarm64/PartnerPlusPoints.tar.xz -C ./output/osxarm64 ./PartnerPlusPoints
+        run: tar cJf ./output/osxarm64/PartnerPlusPoints.tar.xz -C ./output/osxarm64 ./PartnerPlusPoints
 
       - name: Get release
         uses: bruceadams/get-release@v1.3.2
