@@ -188,7 +188,7 @@ namespace PartnerPlusPoints
             Console.Write("Extracting cookies... ");
             (bool gqlExtractionSuccess, bool apiExtractionSuccess) = await ExtractCookieInformation();
 
-            if (gqlExtractionSuccess)
+            if (gqlExtractionSuccess && apiExtractionSuccess)
             {
                 ConsoleHelper.Success();
                 if (Program.UserSettings.StoreSensitiveInfo) { Program.UserSettings.GQLAuth = Program.TempGQLAuthToken; } // To honor the user's request to store their GQL token.
@@ -199,13 +199,6 @@ namespace PartnerPlusPoints
                 ConsoleHelper.Failure();
                 await DeleteCookies();
                 ConsoleHelper.HandleFatalError(3);
-            }
-
-            if (!apiExtractionSuccess)
-            {
-                ConsoleHelper.Warn("Could not extract your Twitch API OAuth token.");
-                ConsoleHelper.WriteLine("Your GQL OAuth token was extracted successfully, so the program will still run.");
-                ConsoleHelper.WriteLine("However, your points will not be instantly updated whenever there is a new subscriber.");
             }
 
             await SettingsManager.WriteSettings(Program.UserSettings);
