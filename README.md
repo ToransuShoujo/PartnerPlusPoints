@@ -10,7 +10,7 @@ Partner Plus Points is a .NET Console Application designed for retrieving and ou
 
 
 ## Installation and Usage
-To use this program, just download and run the executable and then follow the instructions given. 
+To use this program, just download and run the executable [from the latest releases page](https://github.com/ToransuShoujo/PartnerPlusPoints/releases/latest) and then follow the instructions given. 
 
 This program will create a settings file in the same directory to store your preferences. In addition, this program downloads Firefox to extract your API keys from, and this Firefox install is also stored in the same directory.
 
