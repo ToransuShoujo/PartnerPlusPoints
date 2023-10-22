@@ -1,0 +1,146 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    tags:
+      - 'v*'
+  
+jobs:
+  build_release_win_linux:
+
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Test
+      run: dotnet test --verbosity normal
+      
+    - name: Build Win64
+      run: dotnet publish -c Release -r win-x64 -o ./output/win64 --no-restore --self-contained
+    - name: Build WinArm64
+      run: dotnet publish -c Release -r win-arm64 -o ./output/winarm64 --no-restore --self-contained
+    - name: Build Linux64
+      run: dotnet publish -c Release -r linux-x64 -o ./output/linux64 --no-restore --self-contained
+    - name: Build LinuxArm64
+      run: dotnet publish -c Release -r linux-arm64 -o ./output/linuxarm64 --no-restore --self-contained
+
+    - name: Make Linux64 executable
+      run: chmod -x ./output/linux64/PartnerPlusPoints
+    - name: Make LinuxArm64 executable
+      run: chmod -x ./output/linuxarm64/PartnerPlusPoints
+      
+    - name: Compress Linux64
+      run: tar cJf ./output/linux64/PartnerPlusPoints.tar.xz -C ./output/linux64 ./PartnerPlusPoints
+    - name: Compress LinuxArm64
+      run: tar cJf ./output/linuxarm64/PartnerPlusPoints.tar.xz -C ./output/linuxarm64 ./PartnerPlusPoints
+      
+    - name: Get release
+      uses: bruceadams/get-release@v1.3.2
+      id: get_release
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Upload Win64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.get_release.outputs.upload_url }}
+        asset_path: ./output/win64/PartnerPlusPoints.exe
+        asset_name: PartnerPlusPoints_Win64.exe
+        asset_content_type: application/x-msdownload
+    - name: Upload WinArm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.get_release.outputs.upload_url }}
+        asset_path: ./output/winarm64/PartnerPlusPoints.exe
+        asset_name: PartnerPlusPoints_WinArm64.exe
+        asset_content_type: application/x-msdownload
+    - name: Upload Linux64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.get_release.outputs.upload_url }}
+        asset_path: ./output/linux64/PartnerPlusPoints.tar.xz
+        asset_name: Linux_x64.tar.xz
+        asset_content_type: application/gzip
+    - name: Upload LinuxArm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.get_release.outputs.upload_url }}
+        asset_path: ./output/linuxarm64/PartnerPlusPoints.tar.xz
+        asset_name: Linux_Arm64.tar.xz
+        asset_content_type: application/gzip
+        
+  build_release_mac:
+  
+    permissions: write-all
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build OsX64
+        run: dotnet publish -c Release -r osx-x64 -o ./output/osx64 --no-restore --self-contained
+      - name: Build OsXArm64
+        run: dotnet publish -c Release -r osx-arm64 -o ./output/osxarm64 --no-restore --self-contained
+        
+      - name: Make OsX64 executable
+        run: chmod +x ./output/osx64/PartnerPlusPoints
+      - name: Make OsXArm64 executable
+        run: chmod +x ./output/osxarm64/PartnerPlusPoints
+      - name: Compress OsX64
+        run: tar cJf ./output/osx64/PartnerPlusPoints.tar.xz -C ./output/osx64 ./PartnerPlusPoints
+      - name: Compress OsXArm64
+        run: tar cJf ./output/osxarm64/PartnerPlusPoints.tar.xz -C ./output/osxarm64 ./PartnerPlusPoints
+
+      - name: Get release
+        uses: bruceadams/get-release@v1.3.2
+        id: get_release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload OsX64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./output/osx64/PartnerPlusPoints.tar.xz
+          asset_name: MacOsX_x64.tar.xz
+          asset_content_type: application/gzip
+      - name: Upload OsXArm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./output/osxarm64/PartnerPlusPoints.tar.xz
+          asset_name: MacOsX_Arm64.tar.xz
+          asset_content_type: application/gzip
+      
+      
+        
+
+      
