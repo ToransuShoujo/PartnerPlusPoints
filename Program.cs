@@ -196,6 +196,7 @@ namespace PartnerPlusPoints
             GQLTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             GQLTimer.Enabled = true;
             NextCheckTime = DateTime.Now.AddMinutes(5).ToString("hh:mm tt");
+            if (await APIManager.ValidateToken() == false) { ConsoleHelper.HandleFatalError(3); }
             await APIManager.ListenForSubs();
             Console.WriteLine($"You have {PartnerPlusPoints}/{UserSettings.GoalPoints} Partner Plus Points.");
             Console.WriteLine($"Next API check will occur at {NextCheckTime}.");
