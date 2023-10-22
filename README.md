@@ -63,6 +63,12 @@ query {
 ## Supported Operating Systems
 In theory, this program supports all versions of Windows, Mac OS X, and Linux. However, in my testing, I found that Twitch would not allow Firefox on Ubuntu (ARM) to sign in. In cases like these, you must manually provide your API keys using the command line arguments.
 
+## Getting Your Auth & Access Tokens
+You can use two different methods to get your GQL authorization token. The first is to view your browser's cookies and find the cookie value for "auth-token" on Twitch's website.
+The second method is to go to Twitch's home page and use the network viewer. Look for the **second** POST request made to gql.twitch.tv and check the request headers. There, you will find an Authorization header. Remove "OAuth" and that will be your GQL authorization token.
+
+To get your user access token, simply go to [https://shoujo.tv/authorization.html](https://shoujo.tv/authorization.html), sign in, and give PartnerPlusPoints permission to see your subs. The following page will output your Twitch user access token. 
+
 ## Contributing
 Contributions of any kind are more than welcome. Just make a pull request!
 
