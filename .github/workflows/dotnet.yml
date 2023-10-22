@@ -24,26 +24,20 @@ jobs:
       run: dotnet restore
     - name: Test
       run: dotnet test --verbosity normal
+    - name: Install dotnet-tarball
+      run: dotnet tool install --global dotnet-tarball
+    - name: Add dotnet-tarball to project
+      run: dotnet tarball install
       
     - name: Build Win64
       run: dotnet publish -c Release -r win-x64 -o ./output/win64 --no-restore --self-contained
     - name: Build WinArm64
       run: dotnet publish -c Release -r win-arm64 -o ./output/winarm64 --no-restore --self-contained
     - name: Build Linux64
-      run: dotnet publish -c Release -r linux-x64 -o ./output/linux64 --no-restore --self-contained
+      run: dotnet tarball -c Release -r linux-x64 -o ./output/linux64
     - name: Build LinuxArm64
-      run: dotnet publish -c Release -r linux-arm64 -o ./output/linuxarm64 --no-restore --self-contained
+      run: dotnet tarball -c Release -r linux-arm64 -o ./output/linuxarm64
 
-    - name: Make Linux64 executable
-      run: chmod -x ./output/linux64/PartnerPlusPoints
-    - name: Make LinuxArm64 executable
-      run: chmod -x ./output/linuxarm64/PartnerPlusPoints
-      
-    - name: Compress Linux64
-      run: tar cJf ./output/linux64/PartnerPlusPoints.tar.xz -C ./output/linux64 ./PartnerPlusPoints
-    - name: Compress LinuxArm64
-      run: tar cJf ./output/linuxarm64/PartnerPlusPoints.tar.xz -C ./output/linuxarm64 ./PartnerPlusPoints
-      
     - name: Get release
       uses: bruceadams/get-release@v1.3.2
       id: get_release
@@ -74,7 +68,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.get_release.outputs.upload_url }}
-        asset_path: ./output/linux64/PartnerPlusPoints.tar.xz
+        asset_path: ./output/linux64/PartnerPlusPoints.1.0.0.linux-x64.tar.gz
         asset_name: Linux_x64.tar.xz
         asset_content_type: application/gzip
     - name: Upload LinuxArm64
@@ -83,7 +77,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.get_release.outputs.upload_url }}
-        asset_path: ./output/linuxarm64/PartnerPlusPoints.tar.xz
+        asset_path: ./output/linuxarm64/PartnerPlusPoints.1.0.0.linux-arm64.tar.gz
         asset_name: Linux_Arm64.tar.xz
         asset_content_type: application/gzip
         
