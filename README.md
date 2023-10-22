@@ -39,7 +39,7 @@ query {
 }
 ```
 
-In the case of a fluctuating count, the following GQL query is used, with startDate being the current time and endDate being one month ago:
+In the case of a fluctuating count, the following GQL query is used, with startAt being the current time and endAt being one month ago:
 ```
 query {
     revenues(startAt:, endAt:, timeZone:"UTC", channelID:) {
