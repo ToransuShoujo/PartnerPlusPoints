@@ -20,11 +20,12 @@ namespace PartnerPlusPoints
         public static async Task<BashOutput?> RunScript(BrowserManager.BrowserOperation operation)
         {
             var workingDirectory = Directory.GetCurrentDirectory();
+
             var terminalProcess = new ProcessStartInfo()
             {
                 UseShellExecute = false,
                 FileName = Program.BashScript,
-                Arguments = $"{operation} {workingDirectory} {Program.UserOS.OperatingSystem}",
+                Arguments = $@"{operation} {Program.UserOS.OperatingSystem} {workingDirectory}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
