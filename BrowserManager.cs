@@ -102,7 +102,7 @@ namespace PartnerPlusPoints
                 case "win":
                 case "win64":
                     string currentDir = Directory.GetCurrentDirectory();
-                    string cmdText = $"/C \"{currentDir}\\Firefox\\firefox.exe\" /ExtractDir=\"{currentDir}\\Firefox\\_temp\"";
+                    string cmdText = $@"/c cd ""{currentDir}"" && .\Firefox\firefox.exe /ExtractDir=.\Firefox\_temp";
                     using (Process cmd = new Process())
                     {
                         cmd.StartInfo.FileName = "CMD.exe";
@@ -110,8 +110,8 @@ namespace PartnerPlusPoints
                         cmd.Start();
                         await cmd.WaitForExitAsync();
                     }
-                    Directory.Move($"{currentDir}\\Firefox\\_temp\\core", $"{currentDir}\\Firefox\\win");
-                    Directory.Delete($"{currentDir}\\Firefox\\_temp", true);
+                    Directory.Move($@"{currentDir}\Firefox\_temp\core", $@"{currentDir}\Firefox\win");
+                    Directory.Delete($@"{currentDir}\Firefox\_temp", true);
                     ConsoleHelper.Success();
                     break;
                 default:
